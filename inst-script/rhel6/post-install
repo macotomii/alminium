@@ -9,7 +9,9 @@ fi
 if [ ! -f /etc/httpd/conf.d/redmine.conf ]
 then
   PASSENGER_VERSION=`passenger-config  --version`
+  GEM_INSTALLATION_DIRECTORY=`gem env | grep 'INSTALLATION DIRECTORY' | sed 's/^  - INSTALLATION DIRECTORY: //'`
   sed 's/%HOSTNAME%/'$HOSTNAME'/' inst-script/rhel6/httpd-redmine.conf | \
+      sed 's|%GEM_INSTALLATION_DIRECTORY%|'$GEM_INSTALLATION_DIRECTORY'|' | \
       sed 's/%PASSENGER_VERSION%/'$PASSENGER_VERSION'/' |
 	  if [ "$SSL" = "y" ]
 	  then 
